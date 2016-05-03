@@ -1,0 +1,52 @@
+{
+  "name": "armtemplategenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "postinstall": "jspm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.6.5",
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-transform-decorators": "^6.6.0",
+    "babel-preset-es2015": "^6.6.0",
+    "chai": "^3.5.0",
+    "eslint": "^2.9.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-jspm": "^0.5.7",
+    "gulp-rename": "^1.2.2",
+    "gulp-requirejs": "^0.1.3",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.5",
+    "jasmine": "^2.4.1",
+    "jasmine-core": "^2.4.1",
+    "jshint": "^2.9.2",
+    "jspm": "^0.16.30",
+    "karma": "^0.13.21",
+    "karma-babel-preprocessor": "^6.0.1",
+    "karma-chai-plugins": "^0.7.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.7",
+    "karma-jspm": "^2.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs": "^2.1.3",
+    "phantomjs-prebuilt": "^2.1.4",
+    "require-dir": "^0.3.0"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "./"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
