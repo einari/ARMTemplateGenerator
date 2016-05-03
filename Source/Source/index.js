@@ -6,7 +6,6 @@ export class index
         this.items = ko.observableArray();
     }
     
-    
     add() {
         this.items.push({name:"hello"});
     }

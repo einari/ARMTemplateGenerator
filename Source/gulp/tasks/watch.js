@@ -7,6 +7,7 @@ import server from "gulp-express";
 import {javaScriptPipeline} from "./javascript";
 import {htmlPipeline} from "./html";
 import {lessPipeline} from "./less";
+import {staticContentPipeline} from "./staticContent";
 
 import gulpmatch from "gulp-match";
 
@@ -40,6 +41,10 @@ gulp.task("watch", () => {
         handleEvent(event, lessPipeline);
     });
 
+    gulp.watch(config.paths.content).on("change", (event) => {
+        handleEvent(event, staticContentPipeline);
+    });
+    
     gulp.watch(config.paths.javascript).on("change", (event) => {
         handleEvent(event, javaScriptPipeline);
     });

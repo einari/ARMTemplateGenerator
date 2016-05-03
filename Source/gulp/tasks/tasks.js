@@ -8,9 +8,10 @@ import runSequence from "run-sequence";
 import javascript from "./javascript";
 import html from "./html";
 import less from "./less";
+import staticContent from "./staticContent";
 
 gulp.task("init", (callback) => {
-    runSequence("javascript","html","less", callback);
+    runSequence("javascript","html","less","staticContent", callback);
 });
 
 gulp.task("server", function() {

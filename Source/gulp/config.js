@@ -29,7 +29,14 @@ export default {
             "!"+buildDir+"/**/*",
             source+"/**/*.less"
         ],
+        
+        content: [
+            source+"/**/*.gif",
+            source+"/**/*.jpg",
+            source+"/**/*.jpeg",
+            source+"/**/*.png"
+        ],
 
-        dist: "./"+buildDir
+        dist: "./"+buildDir,
     }
 }
