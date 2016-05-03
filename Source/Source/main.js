@@ -11,6 +11,8 @@ Catalog.initialize(application);
 
 var port = process.env.PORT || 3000;
 
+console.log("Listen to traffic on : "+port);
+
 application.listen(port, () => {
     console.log("Running on port "+port);
 });
