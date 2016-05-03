@@ -34,7 +34,9 @@ export default {
             source+"/**/*.gif",
             source+"/**/*.jpg",
             source+"/**/*.jpeg",
-            source+"/**/*.png"
+            source+"/**/*.png",
+            source+"/**/*.woff*",
+            source+"/**/*.ttf",
         ],
 
         dist: "./"+buildDir,
