@@ -59,7 +59,7 @@ export class Catalog {
                         fulfill(json);
                         console.log("Parsed");
 
-                        fs.writeFile("./catalog.json", jsonAsString);
+                        //fs.writeFile("./catalog.json", jsonAsString);
 
 
                     });
