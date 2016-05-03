@@ -5,8 +5,12 @@ import server from "gulp-express";
 
 import runSequence from "run-sequence";
 
+import javascript from "./javascript";
+import html from "./html";
+import less from "./less";
+
 gulp.task("init", (callback) => {
-    runSequence("javascript","html", callback);
+    runSequence("javascript","html","less", callback);
 });
 
 gulp.task("server", function() {

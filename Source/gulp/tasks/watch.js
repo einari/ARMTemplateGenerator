@@ -6,6 +6,7 @@ import server from "gulp-express";
 
 import {javaScriptPipeline} from "./javascript";
 import {htmlPipeline} from "./html";
+import {lessPipeline} from "./less";
 
 import gulpmatch from "gulp-match";
 
@@ -33,6 +34,10 @@ gulp.task("watch", () => {
 
     gulp.watch(config.paths.html).on("change", (event) => {
         handleEvent(event, htmlPipeline);
+    });
+
+    gulp.watch(config.paths.less).on("change", (event) => {
+        handleEvent(event, lessPipeline);
     });
 
     gulp.watch(config.paths.javascript).on("change", (event) => {
