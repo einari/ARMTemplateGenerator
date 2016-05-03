@@ -1,4 +1,5 @@
 import express from "express";
+import {Catalog} from "./catalog.server";
 
 console.log("MAIN");
 
@@ -6,11 +7,7 @@ var application = express();
 application.use(express.static(__dirname+"/"));
 application.use(require("connect-livereload")());
 
-
-application.get("/Something", (request, response) => {
-    response.send("Hello world - there - 3");
-});
-
+Catalog.initialize(application);
 
 application.listen(3000, () => {
     console.log("Running on port 3000");
