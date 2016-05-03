@@ -47,6 +47,7 @@
   },
   "jspm": {
     "dependencies": {
+      "bootstrap": "github:twbs/bootstrap@^3.3.6",
       "knockout": "github:knockout/knockout@^3.4.0"
     },
     "devDependencies": {

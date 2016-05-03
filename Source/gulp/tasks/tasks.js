@@ -9,9 +9,10 @@ import javascript from "./javascript";
 import html from "./html";
 import less from "./less";
 import staticContent from "./staticContent";
+import packageContent from "./packageContent";
 
 gulp.task("init", (callback) => {
-    runSequence("javascript","html","less","staticContent", callback);
+    runSequence("javascript","html","less","staticContent", "packageContent", callback);
 });
 
 gulp.task("server", function() {
