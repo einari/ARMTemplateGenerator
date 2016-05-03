@@ -6,9 +6,17 @@ var application = express();
 application.use(express.static(__dirname+"/"));
 application.use(require("connect-livereload")());
 
-application.listen(3000, function() {
+
+application.get("/Something", (request, response) => {
+    response.send("Hello world - there - 3");
+});
+
+
+application.listen(3000, () => {
     console.log("Running on port 3000");
 });
+
+
 
 
 

@@ -1,13 +1,21 @@
+<!DOCTYPE html>
 <html>
 
 <head>
+    <title>ARM Generator</title>
 
 </head>
 
 <body>
-    Hello world something
-
-
+    <button data-bind="click: add">Add</button>
+    <table>
+        <tbody data-bind="foreach: items">
+            <tr>
+                <td data-bind="text: name">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
@@ -23,14 +31,7 @@
             });
         };
         System.cacheBust = '?bust=' + Date.now();
-        
         System.import("app");
-
-        //System.meta['signalr'] = { deps: ['jquery'] };
-        //System.meta['signalr/hubs'] = { deps: ['signalr'] };
-        //System.import("signalr/hubs");
-
-        //System.import("aurelia-bootstrapper");
     </script>
 </body>
 

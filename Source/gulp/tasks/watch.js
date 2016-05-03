@@ -21,7 +21,10 @@ function handleEvent(event, pipeline) {
 
     var stream = gulp.src(event.path);
     pipeline(stream);
-    server.notify();
+    
+    server.stop();
+    //server.notify();
+    server.run([config.paths.dist+"/main.js"]);
 }
 
 console.log("Watcher going...");
@@ -33,7 +36,7 @@ gulp.task("watch", () => {
     });
 
     gulp.watch(config.paths.javascript).on("change", (event) => {
-        handleEvent(event, htmlPipeline);
+        handleEvent(event, javaScriptPipeline);
     });
 });
 
