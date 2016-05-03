@@ -52,6 +52,8 @@ export class Catalog {
             self.organizeByCategories(data);
             self.isBusy(false);
         });
+        
+        
     }
 
     get categories() {
