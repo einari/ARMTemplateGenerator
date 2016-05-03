@@ -1,0 +1,24 @@
+{
+  "name": "armtemplategenerator",
+  "description": "",
+  "main": "./www/main.js",
+  "authors": [
+    "Einar Ingebrigtsen <einar@dolittle.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
