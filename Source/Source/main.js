@@ -9,6 +9,6 @@ application.use(require("connect-livereload")());
 
 Catalog.initialize(application);
 
-application.listen(3000, () => {
+application.listen(80, () => {
     console.log("Running on port 3000");
 });
