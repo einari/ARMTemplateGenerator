@@ -1,0 +1,37 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    Hello world something
+
+
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+    <script>
+        // TODO: This should not be used in Production
+        var systemLocate = System.locate;
+        System.locate = function (load) {
+            var System = this;
+            return Promise.resolve(systemLocate.call(this, load)).then(function (address) {
+                if (address.lastIndexOf("html.js") > -1) return address;
+                if (address.lastIndexOf("css.js") > -1) return address;
+                return address + System.cacheBust;
+            });
+        };
+        System.cacheBust = '?bust=' + Date.now();
+        
+        System.import("app");
+
+        //System.meta['signalr'] = { deps: ['jquery'] };
+        //System.meta['signalr/hubs'] = { deps: ['signalr'] };
+        //System.import("signalr/hubs");
+
+        //System.import("aurelia-bootstrapper");
+    </script>
+</body>
+
+</html>

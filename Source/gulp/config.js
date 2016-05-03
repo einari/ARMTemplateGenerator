@@ -1,31 +1,33 @@
 var buildDir = "www/";
+var source = "source"
 
 export default {
     paths: {
-        appFile: "./app.js",
+        appFile: "./"+source+"/app.js",
+        
+        source: source,
         html: [
             "!jspm_packages/**/*",
             "!node_modules/**/*",
             "!"+buildDir+"/**/*",
-            "**/*.html"
+            source+"/**/*.html"
         ],
 
         javascript: [
             "!jspm_packages/**/*",
             "!node_modules/**/*",
             "!"+buildDir+"/**/*",
-            "!config.js",
             "!gulpfile.js",
-            "!build/**/*",
             "!gulp/**/*",
-            "**/*.js"
+            "config.js",
+            source+"/**/*.js"
         ],
 
         less: [
             "!jspm_packages/**/*",
             "!node_modules/**/*",
             "!"+buildDir+"/**/*",
-            "**/*.less"
+            source+"/**/*.less"
         ],
 
         dist: "./"+buildDir
