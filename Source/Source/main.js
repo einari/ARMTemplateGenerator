@@ -1,9 +1,11 @@
 import express from "express";
 import {Catalog} from "./catalog.server";
+import compression from "compression";
 
 console.log("MAIN");
 
 var application = express();
+application.use(compression());
 application.use(express.static(__dirname+"/"));
 application.use(require("connect-livereload")());
 
