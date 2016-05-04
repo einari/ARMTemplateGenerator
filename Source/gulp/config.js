@@ -40,6 +40,8 @@ export default {
             source+"/**/*.png",
             source+"/**/*.woff*",
             source+"/**/*.ttf",
+            source+"/**/*.svg",
+            source+"/**/*.eot"
         ],
 
         dist: "./"+buildDir,
