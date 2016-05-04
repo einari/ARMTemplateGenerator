@@ -7,10 +7,6 @@
 
 # Helpers
 # -------
-
-echo "Hello from the echo chamber"
-
-
 exitWithMessageOnError () {
   if [ ! $? -eq 0 ]; then
     echo "An error has occurred during web site deployment."
@@ -115,7 +111,10 @@ selectNodeVersion
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install --production
+  echo "Target is"
+  echo "$DEPLOYMENT_TARGET"
+  eval $NPM_CMD install 
+  #--production
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
