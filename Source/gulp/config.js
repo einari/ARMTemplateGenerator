@@ -14,8 +14,8 @@ export default {
         ],
 
         javascript: [
-            "!jspm_packages/**/*",
-            "!node_modules/**/*",
+            "!./**/jspm_packages/**/*",
+            "!./**/node_modules/**/*",
             "!"+buildDir+"/**/*",
             "!gulpfile.js",
             "!gulp/**/*",
