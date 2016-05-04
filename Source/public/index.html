@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ARM Generator</title>
+
+    <link href="Content/styles.css" rel="stylesheet" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+
+    <header role="banner">
+        <div class="container">
+            <h1>ARM Template Generator</h1>
+        </div>
+
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#galleryListModal">Add from gallery</button>
+
+            <a href="#"><img src="Content/DeployToAzure.png"></a>
+
+            <hr>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 64px"></th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Publisher
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: items">
+                    <tr>
+                        <td>
+                            <img data-bind="attr: { src: $data.iconFileUris.small }">
+                        </td>
+
+                        <td>
+                            <span class="glyphicon glyphicon-info-sign" data-bind="popover: description"></span>
+                            <span data-bind="text: itemDisplayName"></span>
+                        </td>
+                        <td data-bind="text: publisherDisplayName"></td>
+                        <td>
+                            <button type="button" class="btn btn-default" title="Remove" data-bind="click: $parent.remove.bind($parent, $data)">
+                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="galleryListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Add from gallery</h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--
+                            <form>
+                                <input type="text" class="form-control" placeholder="Search for item">
+                            </form>-->
+
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Publisher
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="foreach: currentPage">
+                                    <tr>
+                                        <td>
+                                            <img data-bind="attr: { src: $data.iconFileUris.small }">
+                                        </td>
+                                        <td>
+                                            <span class="glyphicon glyphicon-info-sign" data-bind="popover: description"></span>
+                                            <span data-bind="text: itemDisplayName"></span>
+                                        </td>
+                                        <td data-bind="text: publisherDisplayName">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-default" title="Add" data-dismiss="modal" data-bind="click: $parent.add.bind($parent,$data)">
+                                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <nav>
+                                <ul class="pagination pagination-sm">
+                                    <!--
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>-->
+                                    <!-- ko foreach: pages -->
+                                    <li>
+                                        <a href="#" data-bind="text: $index()+1, click: $parent.selectPage.bind($parent, $data)"></a>
+                                    </li>
+                                    <!-- /ko -->
+
+                                    <!--
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>-->
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
+    <script>
+        // TODO: This should not be used in Production
+        var systemLocate = System.locate;
+        System.locate = function (load) {
+            var System = this;
+            return Promise.resolve(systemLocate.call(this, load)).then(function (address) {
+                if (address.lastIndexOf("html.js") > -1) return address;
+                if (address.lastIndexOf("css.js") > -1) return address;
+                return address + System.cacheBust;
+            });
+        };
+        System.cacheBust = '?bust=' + Date.now();
+        System.import("main");
+    </script>
+</body>
+
+</html>

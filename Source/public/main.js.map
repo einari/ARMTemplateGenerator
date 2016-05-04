@@ -1,0 +1,1 @@
+{"version":3,"sources":["main.js"],"names":[],"mappings":";;AAAA;;;;AACA;;;;AAEA;;;;AAEA,mBAAG,aAAH,CAAiB,kBAAjB","file":"main.js","sourcesContent":["import ko from \"knockout\";\nimport bootstrap from \"bootstrap\";\n \nimport {index} from \"./index\";\n\nko.applyBindings(new index());"],"sourceRoot":"/source/"}
