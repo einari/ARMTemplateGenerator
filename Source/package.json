@@ -4,7 +4,7 @@
   "description": "",
   "main": "./www/app.js",
   "scripts": {
-    "postinstall": "echo jspm install && bower install && gulp init",
+    "postinstall": "jspm install && bower install && gulp init",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
