@@ -18,3 +18,5 @@ console.log("Listen to traffic on : "+port);
 application.listen(port, () => {
     console.log("Running on port "+port);
 });
+
+module.exports = application;
