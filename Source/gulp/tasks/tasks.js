@@ -17,7 +17,7 @@ gulp.task("init", (callback) => {
 
 gulp.task("server", function() {
     //server.run([config.paths.dist+"/main.js"]);
-    server.run(["bin/www"]);
+    server.run(["./app.js"]);
 });
 
 gulp.task("default", (callback) => {
