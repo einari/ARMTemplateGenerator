@@ -7,8 +7,9 @@ export default {
         
         source: source,
         html: [
-            "!jspm_packages/**/*",
-            "!node_modules/**/*",
+            "!./**/jspm_packages/**/*",
+            "!./**/node_modules/**/*",
+            "!./**/bower_components/**/*",
             "!"+buildDir+"/**/*",
             source+"/**/*.html"
         ],
@@ -25,8 +26,9 @@ export default {
         ],
 
         less: [
-            "!jspm_packages/**/*",
-            "!node_modules/**/*",
+            "!./**/jspm_packages/**/*",
+            "!./**/bower_components/**/*",
+            "!./**/node_modules/**/*",
             "!"+buildDir+"/**/*",
             source+"/**/*.less"
         ],
