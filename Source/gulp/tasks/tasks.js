@@ -11,13 +11,14 @@ import less from "./less";
 import staticContent from "./staticContent";
 import packageContent from "./packageContent";
 
+import pkg from "../../package.json";
+
 gulp.task("init", (callback) => {
     runSequence("javascript","html","less","staticContent", "packageContent", callback);
 });
 
 gulp.task("server", function() {
-    //server.run([config.paths.dist+"/main.js"]);
-    server.run(["./app.js"]);
+    server.run([pkg.main]);
 });
 
 gulp.task("default", (callback) => {
