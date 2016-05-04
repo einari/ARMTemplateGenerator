@@ -43,6 +43,7 @@ if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
 fi
 
 if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
+    echo "Setting deployment target"
   DEPLOYMENT_TARGET=$ARTIFACTS/wwwroot
 else
   KUDU_SERVICE=true
