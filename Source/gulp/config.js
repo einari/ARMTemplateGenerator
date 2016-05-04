@@ -1,4 +1,4 @@
-var buildDir = "www/";
+var buildDir = "public";
 var source = "source"
 
 export default {

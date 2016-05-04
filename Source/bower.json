@@ -1,7 +1,7 @@
 {
   "name": "armtemplategenerator",
   "description": "",
-  "main": "./www/main.js",
+  "main": "./app.js",
   "authors": [
     "Einar Ingebrigtsen <einar@dolittle.com>"
   ],

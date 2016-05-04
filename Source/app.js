@@ -1,10 +1,10 @@
 var express = require("express");
-var Catalog = require("./www/catalog.server");
+var Catalog = require("./public/catalog.server");
 var compression = require("compression");
 
 var app = express();
 app.use(compression());
-app.use(express.static(__dirname+"/www"));
+app.use(express.static(__dirname+"/public"));
 
 Catalog.Catalog.initialize(app);
 
