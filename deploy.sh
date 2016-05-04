@@ -48,6 +48,11 @@ else
   KUDU_SERVICE=true
 fi
 
+echo "Source is : $DEPLOYMENT_SOURCE"
+echo "Target is : $DEPLOYMENT_TARGET"
+
+
+
 if [[ ! -n "$KUDU_SYNC_CMD" ]]; then
   # Install kudu sync
   echo Installing Kudu Sync
@@ -108,8 +113,6 @@ fi
 # 2. Select node version
 selectNodeVersion
 
-echo "Target is"
-echo "$DEPLOYMENT_TARGET"
 
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
