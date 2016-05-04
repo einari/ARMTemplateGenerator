@@ -1,4 +1,25 @@
 var express = require("express");
+
+var app = express();
+
+app.use("/", function(request, response) {
+    response.write("Hello world");
+    response.end();
+});
+
+
+var port = process.env.PORT || 3000;
+
+
+
+
+var server = app.listen(port, function() {
+    console.log("Server running on "+port);
+    
+});
+
+/*
+var express = require("express");
 var Catalog = require("./public/catalog.server");
 var compression = require("compression");
 
@@ -16,7 +37,7 @@ var server = app.listen(app.get('port'), function() {
 
 
 module.exports = app;
-
+*/
 /*
 import express from "express";
 import {Catalog} from "./catalog.server";
