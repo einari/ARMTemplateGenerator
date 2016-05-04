@@ -31,7 +31,7 @@ ARTIFACTS=$SCRIPT_DIR/../artifacts
 KUDU_SYNC_CMD=${KUDU_SYNC_CMD//\"}
 
 if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
-  DEPLOYMENT_SOURCE=$SCRIPT_DIR/Source
+  DEPLOYMENT_SOURCE=$SCRIPT_DIR
 fi
 
 if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
@@ -47,6 +47,9 @@ if [[ ! -n "$DEPLOYMENT_TARGET" ]]; then
 else
   KUDU_SERVICE=true
 fi
+
+DEPLOYMENT_SOURCE=$DEPLOYMENT_SOURCE/Source
+
 
 echo "Source is : $DEPLOYMENT_SOURCE"
 echo "Target is : $DEPLOYMENT_TARGET"
