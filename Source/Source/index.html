@@ -28,10 +28,13 @@
                 Clear
             </button>
 
-            <button type="button" class="btn btn-primary" data-bind="click: download">
-                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                Download
-            </button>
+            <form action="/templategenerator/download" method="POST" target="_blank" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" name="template" data-bind="value: templateAsJson"/>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                    Download
+                </button>
+            </form>
 
             <a href="#"><img src="Content/DeployToAzure.png"></a>
 

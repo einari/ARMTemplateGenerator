@@ -11,6 +11,8 @@ var _catalog = require("./catalog");
 
 var _TemplateGenerator = require("./TemplateGenerator");
 
+var _Guid = require("./Guid");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var MAX_PAGES_IN_PAGINATION = 5;
@@ -39,6 +41,15 @@ var index = exports.index = function () {
 
         this.catalog.isBusy.subscribe(function () {
             return self.preparePagedItems(self.catalog.items());
+        });
+
+        this.templateId = _Guid.Guid.create();
+
+        this.templateAsJson = ko.computed(function () {
+            return JSON.stringify({
+                id: self.templateId,
+                content: self.items()
+            });
         });
     }
 

@@ -1,5 +1,6 @@
 import {Catalog} from "./catalog";
 import {TemplateGenerator} from "./TemplateGenerator";
+import {Guid} from "./Guid";
 
 const MAX_PAGES_IN_PAGINATION = 5;
 
@@ -25,6 +26,15 @@ export class index
         }
         
         this.catalog.isBusy.subscribe(() => self.preparePagedItems(self.catalog.items()));
+        
+        this.templateId = Guid.create();
+        
+        this.templateAsJson = ko.computed(() => {
+            return JSON.stringify({
+                id: self.templateId,
+                content: self.items()
+            });
+        });
     }
     
     preparePagedItems(items) {

@@ -25,11 +25,15 @@ function handleFile(file, globs, pipeline) {
         util.colors.magenta(path.basename(file))
     );
     
-    var stream = gulp.src(file);
-    pipeline(stream);
-    
-    server.stop();
-    server.run([pkg.main]);
+    try { 
+        var stream = gulp.src(file);
+        pipeline(stream);
+        
+        server.stop();
+        server.run([pkg.main]);
+    } catch( ex ) {
+        util.log(ex);
+    }
 }
 
 console.log("Watcher going...");
