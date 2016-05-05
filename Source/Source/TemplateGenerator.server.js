@@ -27,23 +27,43 @@ export class TemplateGenerator {
 
             });
         });
-
+        
         application.post("/templategenerator/download", (request, response) => {
             console.log(`Download ${request.body.template}`);
             var template = JSON.parse(request.body.template);
 
             let templateGenerator = new TemplateGenerator();
             templateGenerator.generate(template).then(json => {
-
-
                 let fileName = getFileNameFor(template);
-
                 let absolutePath = path.resolve(fileName);
 
                 response.sendFile(absolutePath);
             });
+        });
+        
+        application.post("/templategenerator/deploy", (request, response) => {
+            console.log(`Deploy ${request.body.template}`);
+            var template = JSON.parse(request.body.template);
 
-            //response.end();
+            let templateGenerator = new TemplateGenerator();
+            templateGenerator.generate(template).then(json => {
+                let fileName = getFileNameFor(template);
+                
+                response.redirect("https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-simple-linux%2Fazuredeploy.json");
+            });
+        });
+        
+        
+        application.post("/templategenerator/visualize", (request, response) => {
+            console.log(`Deploy ${request.body.template}`);
+            var template = JSON.parse(request.body.template);
+
+            let templateGenerator = new TemplateGenerator();
+            templateGenerator.generate(template).then(json => {
+                let fileName = getFileNameFor(template);
+                
+                response.redirect("http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-simple-linux%2Fazuredeploy.json");
+            });
         });
     }
 
