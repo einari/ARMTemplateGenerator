@@ -1,4 +1,5 @@
 import {Catalog} from "./catalog";
+import {TemplateGenerator} from "./TemplateGenerator";
 
 const MAX_PAGES_IN_PAGINATION = 5;
 
@@ -9,6 +10,8 @@ export class index
         
         this.items = ko.observableArray();
         this.catalog = new Catalog();
+        
+        this.templateGenerator = new TemplateGenerator();
         
         this.publishers = this.catalog.publishers;
         this.categories = this.catalog.categories;
@@ -65,5 +68,13 @@ export class index
     
     remove(item) {
         this.items.remove(item);
+    }
+    
+    clear() {
+        this.items([]);
+    }
+    
+    download() {
+        this.templateGenerator.download(this.items());
     }
 }

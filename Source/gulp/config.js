@@ -1,5 +1,5 @@
 var buildDir = "public";
-var source = "source"
+var source = "Source"
 
 export default {
     paths: {
@@ -11,7 +11,7 @@ export default {
             "!./**/node_modules/**/*",
             "!./**/bower_components/**/*",
             "!"+buildDir+"/**/*",
-            source+"/**/*.html"
+            source+"/**/*.html",
         ],
 
         javascript: [

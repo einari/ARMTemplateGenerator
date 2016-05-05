@@ -7,21 +7,31 @@
     <link href="Content/styles.css" rel="stylesheet" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
 </head>
 
 <body>
-
     <header role="banner">
         <div class="container">
             <h1>ARM Template Generator</h1>
         </div>
-
     </header>
-
+    
     <div class="container">
         <div class="row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#galleryListModal">Add from gallery</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#galleryListModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                Add from gallery
+            </button>
+
+            <button type="button" class="btn btn-primary" data-bind="click: clear">
+                <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                Clear
+            </button>
+
+            <button type="button" class="btn btn-primary" data-bind="click: download">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                Download
+            </button>
 
             <a href="#"><img src="Content/DeployToAzure.png"></a>
 

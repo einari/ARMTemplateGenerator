@@ -7,45 +7,52 @@ import server from "gulp-express";
 import {javaScriptPipeline} from "./javascript";
 import {htmlPipeline} from "./html";
 import {lessPipeline} from "./less";
-import {staticContentPipeline} from "./staticContent";
+import {contentPipeline} from "./staticContent";
 
-import gulpmatch from "gulp-match";
+import chokidar from "chokidar";
 
-function handleEvent(event, pipeline) {
+import multimatch from "multimatch";
+
+import pkg from "../../package.json";
+
+
+function handleFile(file, globs, pipeline) {
+    var result = multimatch(file, globs);
+    if( result.length == 0 ) return;
+    
     util.log(
-        util.colors.green('File ' + event.type + ': ') +
-        util.colors.magenta(path.basename(event.path))
+        util.colors.green('File ' + file + ': ') +
+        util.colors.magenta(path.basename(file))
     );
     
-    if( event.type == "deleted" ) {
-        
-    }
-
-    var stream = gulp.src(event.path);
+    var stream = gulp.src(file);
     pipeline(stream);
     
     server.stop();
-    //server.notify();
-    server.run([config.paths.dist+"/main.js"]);
+    server.run([pkg.main]);
 }
 
 console.log("Watcher going...");
 gulp.task("watch", () => {
     console.log("Watch");
-
-    gulp.watch(config.paths.html).on("change", (event) => {
-        handleEvent(event, htmlPipeline);
-    });
-
-    gulp.watch(config.paths.less).on("change", (event) => {
-        handleEvent(event, lessPipeline);
-    });
-
-    gulp.watch(config.paths.content).on("change", (event) => {
-        handleEvent(event, staticContentPipeline);
+    
+    let watcher = chokidar.watch(".", {
+        persistent: true,
+        ignored: "public/**/*",
+        ignoreInitial: true
     });
     
-    gulp.watch(config.paths.javascript).on("change", (event) => {
-        handleEvent(event, javaScriptPipeline);
-    });
+    let fileHandling = (file) => {
+        handleFile(file, config.paths.html, htmlPipeline);
+        handleFile(file, config.paths.less, lessPipeline);
+        handleFile(file, config.paths.content, contentPipeline);
+        handleFile(file, config.paths.javascript, javaScriptPipeline);
+    };
+        
+    watcher
+        .on("change", fileHandling)
+        .on("add", fileHandling)
+        .on("unlink", (file) => {
+            // delete
+        });
 });

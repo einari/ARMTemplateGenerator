@@ -9,6 +9,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _catalog = require("./catalog");
 
+var _TemplateGenerator = require("./TemplateGenerator");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var MAX_PAGES_IN_PAGINATION = 5;
@@ -21,6 +23,8 @@ var index = exports.index = function () {
 
         this.items = ko.observableArray();
         this.catalog = new _catalog.Catalog();
+
+        this.templateGenerator = new _TemplateGenerator.TemplateGenerator();
 
         this.publishers = this.catalog.publishers;
         this.categories = this.catalog.categories;
@@ -84,6 +88,16 @@ var index = exports.index = function () {
         key: "remove",
         value: function remove(item) {
             this.items.remove(item);
+        }
+    }, {
+        key: "clear",
+        value: function clear() {
+            this.items([]);
+        }
+    }, {
+        key: "download",
+        value: function download() {
+            this.templateGenerator.download(this.items());
         }
     }]);
 

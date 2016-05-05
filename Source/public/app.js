@@ -4,7 +4,9 @@ var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
 
-var _catalog = require("./catalog.server");
+var _Catalog = require("./Catalog.server");
+
+var _TemplateGenerator = require("./TemplateGenerator.server");
 
 var _compression = require("compression");
 
@@ -19,7 +21,8 @@ application.use((0, _compression2.default)());
 application.use(_express2.default.static(__dirname + "/"));
 application.use(require("connect-livereload")());
 
-_catalog.Catalog.initialize(application);
+_Catalog.Catalog.initialize(application);
+_TemplateGenerator.TemplateGenerator.initialize(application);
 
 var port = process.env.PORT || 3000;
 
