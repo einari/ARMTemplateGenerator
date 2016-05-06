@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const templatesFolder = "./public/generatedtemplates";
+const templatesFolder = "./temp_data";
 
 let getFileNameFor = (template) => {
     let fileName = `${templatesFolder}/${template.id}.json`;
