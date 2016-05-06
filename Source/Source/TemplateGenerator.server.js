@@ -38,7 +38,6 @@ export class TemplateGenerator {
                 let absolutePath = path.resolve(fileName);
 
                 response.sendFile(absolutePath);
-                response.end();
             });
         });
         
@@ -51,7 +50,6 @@ export class TemplateGenerator {
                 let fileName = getFileNameFor(template);
                 
                 response.redirect("https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-simple-linux%2Fazuredeploy.json");
-                response.end();
             });
         });
         
@@ -65,7 +63,6 @@ export class TemplateGenerator {
                 let fileName = getFileNameFor(template);
                 
                 response.redirect("http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2F101-vm-simple-linux%2Fazuredeploy.json");
-                response.end();
             });
         });
     }
