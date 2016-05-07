@@ -231,9 +231,12 @@ export class TemplateGenerator {
                     resource.artifacts.forEach(artifact => {
                         console.log("Artifact : " + artifact.name);
                         if (artifact.name == "createuidefinition") {
+                            console.log(`Get UI Definition from ${artifact.uri}`);
                             request(artifact.uri, (error, response, body) => {
+                                console.log(`Result from getting UI Definition ${response.statusCode}`)
                                 if (!error && response.statusCode == 200) {
                                     var uidefinition = JSON.parse(body);
+                                    console.log(uidefinition);
 
                                     outputTemplate.resources.push({
                                         "apiVersion": "[variables('apiVersion')]",
@@ -255,9 +258,9 @@ export class TemplateGenerator {
                                             },
                                             "storageProfile": {
                                                 "imageReference": {
-                                                    "publisher": uidefinition.publisher,
-                                                    "offer": uidefinition.offer,
-                                                    "sku": uidefinition.sku,
+                                                    "publisher": uidefinition.parameters.imageReference.publisher,
+                                                    "offer": uidefinition.parameters.imageReference.offer,
+                                                    "sku": uidefinition.parameters.imageReference.sku,
                                                     "version": "latest"
                                                 },
                                                 "osDisk": {
