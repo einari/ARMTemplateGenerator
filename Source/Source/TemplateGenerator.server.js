@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import request from "request";
 
 const templatesFolder = "./temp_data";
 
@@ -28,13 +29,13 @@ let handleTemplate = (template) => {
 
 export class TemplateGenerator {
     static initialize(application) {
-        
+
         application.get("/templategenerator/get", (request, response) => {
-            let fileName = getFileNameFor({id:request.query.id});
+            let fileName = getFileNameFor({ id: request.query.id });
             let absolutePath = path.resolve(fileName);
             response.sendFile(absolutePath);
         });
-        
+
         application.post("/templategenerator/generate", (request, response) => {
             let content = "";
 
@@ -90,7 +91,39 @@ export class TemplateGenerator {
             let outputTemplate = {
                 "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
-                "parameters": {},
+                "parameters": {
+                    "adminUsername": {
+                        "type": "string",
+                        "metadata": {
+                            "description": "User name for the Virtual Machine."
+                        }
+                    },
+                    "adminPassword": {
+                        "type": "securestring",
+                        "metadata": {
+                            "description": "Password for the Virtual Machine."
+                        }
+                    },
+                    "dnsLabelPrefix": {
+                        "type": "string",
+                        "metadata": {
+                            "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+                        }
+                    },
+                    /*
+                    "ubuntuOSVersion": {
+                        "type": "string",
+                        "defaultValue": "14.04.2-LTS",
+                        "allowedValues": [
+                            "12.04.5-LTS",
+                            "14.04.2-LTS",
+                            "15.10"
+                        ],
+                        "metadata": {
+                            "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values: 12.04.5-LTS, 14.04.2-LTS, 15.10."
+                        }
+                    }*/
+                },
                 "variables": {
                     "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'salinuxvm')]",
                     "dataDisk1VhdName": "datadisk1",
@@ -182,94 +215,121 @@ export class TemplateGenerator {
                             ]
                         }
                     },
-                    {
-                        "apiVersion": "[variables('apiVersion')]",
-                        "type": "Microsoft.Compute/virtualMachines",
-                        "name": "[variables('vmName')]",
-                        "location": "[resourceGroup().location]",
-                        "dependsOn": [
-                            "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
-                            "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-                        ],
-                        "properties": {
-                            "hardwareProfile": {
-                                "vmSize": "[variables('vmSize')]"
-                            },
-                            "osProfile": {
-                                "computerName": "[variables('vmName')]",
-                                "adminUsername": "[parameters('adminUsername')]",
-                                "adminPassword": "[parameters('adminPassword')]"
-                            },
-                            "storageProfile": {
-                                "imageReference": {
-                                    "publisher": "[variables('imagePublisher')]",
-                                    "offer": "[variables('imageOffer')]",
-                                    "sku": "[parameters('ubuntuOSVersion')]",
-                                    "version": "latest"
-                                },
-                                "osDisk": {
-                                    "name": "osdisk",
-                                    "vhd": {
-                                        "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
-                                    },
-                                    "caching": "ReadWrite",
-                                    "createOption": "FromImage"
-                                },
-                                "dataDisks": [
-                                    {
-                                        "name": "datadisk1",
-                                        "diskSizeGB": "100",
-                                        "lun": 0,
-                                        "vhd": {
-                                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('dataDisk1VhdName'),'.vhd')]"
-                                        },
-                                        "createOption": "Empty"
-                                    }
-                                ]
-                            },
-                            "networkProfile": {
-                                "networkInterfaces": [
-                                    {
-                                        "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
-                                    }
-                                ]
-                            },
-                            "diagnosticsProfile": {
-                                "bootDiagnostics": {
-                                    "enabled": "true",
-                                    "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
-                                }
-                            }
-                        }
-                    }
                 ],
                 "outputs": {
-
                 }
             };
 
+            var resourcesAdded = new Promise((resourcesAddedFulfill, resourceAddedReject) => {
 
-            if (!fs.existsSync(templatesFolder)) {
-                fs.mkdirSync(templatesFolder);
-            }
+                let resourceCount = template.content.length;
+                template.content.forEach((resource) => {
+                    
+                    if( resource.artifacts.length == 0 ) resourceCount--;
+                    if( resourceCount == 0 ) resourcesAddedFulfill();
+                    
+                    resource.artifacts.forEach(artifact => {
+                        console.log("Artifact : " + artifact.name);
+                        if (artifact.name == "createuidefinition") {
+                            request(artifact.uri, (error, response, body) => {
+                                if (!error && response.statusCode == 200) {
+                                    var uidefinition = JSON.parse(body);
 
-            let fileName = getFileNameFor(template);
-            let absolutePath = path.resolve(fileName);
+                                    outputTemplate.resources.push({
+                                        "apiVersion": "[variables('apiVersion')]",
+                                        "type": "Microsoft.Compute/virtualMachines",
+                                        "name": "[variables('vmName')]",
+                                        "location": "[resourceGroup().location]",
+                                        "dependsOn": [
+                                            "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                                            "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+                                        ],
+                                        "properties": {
+                                            "hardwareProfile": {
+                                                "vmSize": "[variables('vmSize')]"
+                                            },
+                                            "osProfile": {
+                                                "computerName": "[variables('vmName')]",
+                                                "adminUsername": "[parameters('adminUsername')]",
+                                                "adminPassword": "[parameters('adminPassword')]"
+                                            },
+                                            "storageProfile": {
+                                                "imageReference": {
+                                                    "publisher": uidefinition.publisher,
+                                                    "offer": uidefinition.offer,
+                                                    "sku": uidefinition.sku,
+                                                    "version": "latest"
+                                                },
+                                                "osDisk": {
+                                                    "name": "osdisk",
+                                                    "vhd": {
+                                                        "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+                                                    },
+                                                    "caching": "ReadWrite",
+                                                    "createOption": "FromImage"
+                                                },
+                                                "dataDisks": [
+                                                    {
+                                                        "name": "datadisk1",
+                                                        "diskSizeGB": "100",
+                                                        "lun": 0,
+                                                        "vhd": {
+                                                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('dataDisk1VhdName'),'.vhd')]"
+                                                        },
+                                                        "createOption": "Empty"
+                                                    }
+                                                ]
+                                            },
+                                            "networkProfile": {
+                                                "networkInterfaces": [
+                                                    {
+                                                        "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                                                    }
+                                                ]
+                                            },
+                                            "diagnosticsProfile": {
+                                                "bootDiagnostics": {
+                                                    "enabled": "true",
+                                                    "storageUri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net')]"
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                                
+                                resourceCount--;
+                                console.log(`Resources added, ${resourceCount} left`);
+                                
+                                if( resourceCount == 0 ) resourcesAddedFulfill();
+                            });
+                        }
+                    });
+                });
+            });
 
-            console.log(`Writing ${fileName}`);
+            resourcesAdded.then(() => {
+                if (!fs.existsSync(templatesFolder)) {
+                    fs.mkdirSync(templatesFolder);
+                }
 
-            let json = JSON.stringify(outputTemplate);
+                let fileName = getFileNameFor(template);
+                let absolutePath = path.resolve(fileName);
 
-            let result = {
-                fileName: fileName,
-                absolutePath: absolutePath,
-                json: json
-            };
+                console.log(`Writing ${fileName}`);
+
+                let json = JSON.stringify(outputTemplate);
+
+                let result = {
+                    fileName: fileName,
+                    absolutePath: absolutePath,
+                    json: json
+                };
 
 
-            fs.writeFile(fileName, json, () => {
-                console.log("DONE");
-                fulfill(result)
+                fs.writeFile(fileName, json, () => {
+                    console.log("DONE");
+                    fulfill(result)
+                });
             });
         });
 
