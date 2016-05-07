@@ -83,10 +83,18 @@ export class TemplateGenerator {
     }
 
     generate(template) {
+        console.log(`Generate for ${template.id}`)
         let promise = new Promise((fulfill, reject) => {
 
             // https://github.com/Azure/azure-resource-manager-schemas
             // https://azure.microsoft.com/en-us/documentation/articles/resource-group-authoring-templates/
+            // https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-windows-multiple-vms/
+            // https://azure.microsoft.com/en-us/documentation/articles/resource-group-create-multiple/
+            // https://github.com/Azure/azure-resource-manager-schemas/blob/master/schemas/2015-08-01/Microsoft.Compute.json
+            // https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-cli-deploy-templates/
+            // https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-cli-deploy-templates/#deploy-a-multi-vm-application-that-uses-a-virtual-network-and-an-external-load-balancer
+            // https://github.com/Azure/azure-quickstart-templates/blob/master/memcached-multi-vm-ubuntu/azuredeploy.json
+
 
             let outputTemplate = {
                 "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
@@ -219,14 +227,29 @@ export class TemplateGenerator {
                 "outputs": {
                 }
             };
+            
+            console.log("Handle resources");
 
             var resourcesAdded = new Promise((resourcesAddedFulfill, resourceAddedReject) => {
-
+                console.log(`Total resources are ${resourceCount}`);
+                
                 let resourceCount = template.content.length;
-                template.content.forEach((resource) => {
+                if( resourceCount == 0 ) {
+                    resourcesAddedFulfill();
+                    return;
+                }
+                
+                
+                
+                template.content.forEach((resource, resourceIndex) => {
+                    console.log("Resource");
                     
                     if( resource.artifacts.length == 0 ) resourceCount--;
-                    if( resourceCount == 0 ) resourcesAddedFulfill();
+                    if( resourceCount <= 0 ) {
+                        console.log("  No resources");
+                        resourcesAddedFulfill();
+                        return;
+                    }
                     
                     resource.artifacts.forEach(artifact => {
                         console.log("Artifact : " + artifact.name);
@@ -237,11 +260,14 @@ export class TemplateGenerator {
                                 if (!error && response.statusCode == 200) {
                                     var uidefinition = JSON.parse(body);
                                     console.log(uidefinition);
+                                    let name = `${uidefinition.parameters.imageReference.offer}_resource${resourceIndex}`;
+                                    
+                                    console.log(`Resource name is '${name}'`);
 
                                     outputTemplate.resources.push({
                                         "apiVersion": "[variables('apiVersion')]",
                                         "type": "Microsoft.Compute/virtualMachines",
-                                        "name": "[variables('vmName')]",
+                                        "name": name,
                                         "location": "[resourceGroup().location]",
                                         "dependsOn": [
                                             "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
@@ -252,7 +278,7 @@ export class TemplateGenerator {
                                                 "vmSize": "[variables('vmSize')]"
                                             },
                                             "osProfile": {
-                                                "computerName": "[variables('vmName')]",
+                                                "computerName": name,
                                                 "adminUsername": "[parameters('adminUsername')]",
                                                 "adminPassword": "[parameters('adminPassword')]"
                                             },
