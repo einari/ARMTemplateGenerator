@@ -3,6 +3,10 @@
         "target": "ES6"
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "jspm_packages",
+        "bower_components",
+        "public",
+        "temp_data"
     ]
 }

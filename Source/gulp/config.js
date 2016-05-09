@@ -3,6 +3,7 @@ var source = "Source"
 
 export default {
     paths: {
+        base: "./"+source,
         appFile: "./"+source+"/app.js",
         
         source: source,

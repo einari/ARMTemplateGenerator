@@ -16,25 +16,39 @@ var _bodyParser = require("body-parser");
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
+var _Template = require("./Templates/Template");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log("MAIN");
+var template = new _Template.Template();
+template.parameter("adminUsername", "string", "User name for the Virtual Machine.");
+template.parameter("adminPassword", "securestring", "Password for the Virtual Machine");
+template.parameter("dnsLabelPrefix", "string", "Unique DNS Name for the Public IP used to access the Virtual Machine");
 
-var application = (0, _express2.default)();
-application.use(_bodyParser2.default.urlencoded({ extended: false }));
-application.use(_bodyParser2.default.json());
-application.use((0, _compression2.default)());
-application.use(_express2.default.static(__dirname + "/"));
-application.use(require("connect-livereload")());
+var generatedTemplate = template.generate();
 
-_Catalog.Catalog.initialize(application);
-_TemplateGenerator.TemplateGenerator.initialize(application);
+console.log(JSON.stringify(generatedTemplate));
 
-var port = process.env.PORT || 3000;
+if (false) {
 
-console.log("Listen to traffic on : " + port);
+    console.log("MAIN");
 
-application.listen(port, function () {
-    console.log("Running on port " + port);
-});
+    var application = (0, _express2.default)();
+    application.use(_bodyParser2.default.urlencoded({ extended: false }));
+    application.use(_bodyParser2.default.json());
+    application.use((0, _compression2.default)());
+    application.use(_express2.default.static(__dirname + "/"));
+    application.use(require("connect-livereload")());
+
+    _Catalog.Catalog.initialize(application);
+    _TemplateGenerator.TemplateGenerator.initialize(application);
+
+    var port = process.env.PORT || 3000;
+
+    console.log("Listen to traffic on : " + port);
+
+    application.listen(port, function () {
+        console.log("Running on port " + port);
+    });
+}
 //# sourceMappingURL=app.js.map

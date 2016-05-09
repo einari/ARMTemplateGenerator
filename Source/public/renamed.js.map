@@ -1,1 +1,1 @@
-{"version":3,"sources":["renamed.js"],"names":[],"mappings":";;AACA,QAAQ,GAAR,CAAY,WAAZ","file":"renamed.js","sourcesContent":["\nconsole.log(\"SOmething\");\n"],"sourceRoot":"/source/"}
+{"version":3,"sources":["renamed.js"],"names":[],"mappings":";;AACA,QAAQ,GAAR,CAAY,WAAZ","file":"renamed.js","sourcesContent":["\nconsole.log(\"SOmething\");\n"],"sourceRoot":"../Source"}

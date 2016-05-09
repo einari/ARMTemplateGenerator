@@ -4,6 +4,19 @@ import {TemplateGenerator} from "./TemplateGenerator.server";
 import compression from "compression";
 import bodyparser from "body-parser";
 
+import {Template} from "./Templates/Template";
+
+let template = new Template();
+template.parameter("adminUsername", "string", "User name for the Virtual Machine.");
+template.parameter("adminPassword", "securestring", "Password for the Virtual Machine");
+template.parameter("dnsLabelPrefix", "string", "Unique DNS Name for the Public IP used to access the Virtual Machine");
+
+let generatedTemplate = template.generate();
+
+console.log(JSON.stringify(generatedTemplate));
+
+if( false) {
+
 console.log("MAIN");
 
 var application = express();
@@ -23,3 +36,4 @@ console.log("Listen to traffic on : "+port);
 application.listen(port, () => {
     console.log("Running on port "+port);
 });
+}

@@ -1,12 +1,11 @@
+"use strict";
+
 System.config({
   baseURL: "/",
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
-    "optional": [
-      "runtime",
-      "optimisation.modules.system"
-    ]
+    "optional": ["runtime", "optimisation.modules.system"]
   },
   paths: {
     "github:*": "jspm_packages/github/*",
@@ -62,3 +61,5 @@ System.config({
     }
   }
 });
+//# sourceMappingURL=config.js.map
+//# sourceMappingURL=config.js.map

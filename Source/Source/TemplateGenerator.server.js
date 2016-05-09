@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import request from "request";
 
+import {Template} from "./Templates/Template";
+
 const templatesFolder = "./temp_data";
 
 let getFileNameFor = (template) => {
@@ -94,9 +96,21 @@ export class TemplateGenerator {
             // https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-cli-deploy-templates/
             // https://azure.microsoft.com/en-us/documentation/articles/virtual-machines-linux-cli-deploy-templates/#deploy-a-multi-vm-application-that-uses-a-virtual-network-and-an-external-load-balancer
             // https://github.com/Azure/azure-quickstart-templates/blob/master/memcached-multi-vm-ubuntu/azuredeploy.json
+            
+
+            let template = new Template();
+            template.parameter("adminUsername", "string", "User name for the Virtual Machine.");
+            template.parameter("adminPassword", "securestring", "Password for the Virtual Machine");
+            template.parameter("dnsLabelPrefix", "string", "Unique DNS Name for the Public IP used to access the Virtual Machine");
+            
+            let generatedTemplate = template.generate();
+                        
+
+
 
 
             let outputTemplate = {
+                
                 "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
                 "contentVersion": "1.0.0.0",
                 "parameters": {
