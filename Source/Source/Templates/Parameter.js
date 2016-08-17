@@ -1,3 +1,5 @@
+import {ValueCanBeReferenced} from "./ValueCanBeReferenced";
+
 const _name = new WeakMap();
 const _type = new WeakMap();
 const _description = new WeakMap();
@@ -5,9 +7,11 @@ const _description = new WeakMap();
 const _defaultValue = new WeakMap();
 const _allowedValues = new WeakMap();
 
-export class Parameter
+export class Parameter extends ValueCanBeReferenced
 {
     constructor(name, type, description) {
+        super();
+        
         _name.set(this, name);
         _type.set(this, type);
         _description.set(this, description);
@@ -44,7 +48,6 @@ export class Parameter
         
         property.type = this.type;
         property.metadata.description = this.description;
-
         
         if( this.allowedValues && this.allowedValues.length > 0 ) {
             property.allowedValues = this.allowedValues;
@@ -54,15 +57,14 @@ export class Parameter
             }
         }
         
-        
         return property;
     }
     
     mergeTo(template) {
         template[this.name] = this.descriptor;
     }
-    
-    get asValue() {
-        return "[variables('this.name')]";
+   
+    get asValueReference() {
+        return "[parameters('this.name')]";
     }
 }

@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import request from "request";
 
+import * as horse from "path";
+
 import {Template} from "./Templates/Template";
 
 const templatesFolder = "./temp_data";
@@ -105,9 +107,6 @@ export class TemplateGenerator {
             
             let generatedTemplate = template.generate();
                         
-
-
-
 
             let outputTemplate = {
                 

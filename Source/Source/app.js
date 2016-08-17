@@ -11,11 +11,13 @@ template.parameter("adminUsername", "string", "User name for the Virtual Machine
 template.parameter("adminPassword", "securestring", "Password for the Virtual Machine");
 template.parameter("dnsLabelPrefix", "string", "Unique DNS Name for the Public IP used to access the Virtual Machine");
 
+//template.virtualMachine(vm => vm.fromGallery("Ubuntu", "15.10"))
+
 let generatedTemplate = template.generate();
 
 console.log(JSON.stringify(generatedTemplate));
 
-if( false) {
+if( true) {
 
 console.log("MAIN");
 

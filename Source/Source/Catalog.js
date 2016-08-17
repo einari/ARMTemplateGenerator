@@ -1,7 +1,6 @@
 import $ from "jquery";
 import ko from "knockout";
 
-
 const _items = new WeakMap();
 
 const _itemsByCategories = new WeakMap();
